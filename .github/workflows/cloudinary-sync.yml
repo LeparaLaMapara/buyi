@@ -1,0 +1,29 @@
+name: Sync Images to Cloudinary
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'public/images/**'
+
+jobs:
+  sync-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Install Cloudinary CLI
+        run: npm install -g cloudinary-cli
+
+      - name: Sync Images
+        env:
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+        # Syncs local public/images to the remote folder 'thabang_portfolio/images'
+        # --delete removes files on Cloudinary if they are deleted locally
+        run: |
+          cloudinary upload_dir public/images \
+            --folder thabang_portfolio/images \
+            --overwrite \
+            --delete
