@@ -1,5 +1,6 @@
 import { NavItem, Project, Testimonial } from './types';
 
+// Navigation Items
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Films', path: '/films' },
   { label: 'Photography', path: '/photography' },
@@ -7,20 +8,15 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Contact', path: '/contact' },
 ];
 
-//  <nav className="hidden md:flex space-x-10">
-//       <NavLink to="/films" className={navClass}>FILMS</NavLink>
-//       <NavLink to="/photography" className={navClass}>PHOTOGRAPHY</NavLink>
-//       <NavLink to="/" className={navClass}>ABOUT</NavLink>
-//       <NavLink to="/contact" className={navClass}>CONTACT</NavLink>
-//     </nav>
-
 // Set to a YouTube video ID (e.g., 'Way9Dexny3w') to enable the showreel.
 // Leave empty ('') to display "COMING SOON".
 export const SHOWREEL_ID = ''; 
 
+// export const SHOWREEL_ID = 'Way9Dexny3w'; // Example ID
 export const BRAND = { name: 'Zibuyile Gumede', 
   tagline: 'Director of Photography' };
 
+// Social Media & Contact Links
 export const SOCIAL_LINKS = {
   instagram: 'https://www.instagram.com/abntu_',
   linkedin: 'https://www.linkedin.com/in/zibuyile-gumede-23ab84242',
@@ -39,19 +35,17 @@ export const SOCIAL_LINKS = {
 const globFiles = (import.meta as any).glob('/public/media/images/**/*.{jpg,jpeg,png,webp}', { eager: true, as: 'url' });
 
 
-
-// Cinematic placeholder images
+// Cinematic placeholder FILMS
 // NOTE: Replace 'dQw4w9WgXcQ' with your actual YouTube Video IDs (the part after v= in the URL)
-// https://youtu.be/x_a_hH_zTpE?si=
 export const FILMS: Project[] = [
   { id: 1, title: 'Pixels over people', category: 'Monologue ', image: '', youtubeId: 'vCiflrPaWcg' },
   { id: 2, title: 'See You Soon', category: 'Short Film', image: '', youtubeId: 'x_a_hH_zTpE' },
-  { id: 3, title: 'Yonela Mnana - Rato La ', category: 'Music Video', image: '', youtubeId: 'MwLGJyWfR24' },
+  { id: 3, title: 'Yonela Mnana - Rato La', category: 'Music Video', image: '', youtubeId: 'MwLGJyWfR24' },
   { id: 4, title: 'Quick Face', category: 'Short Cinematic', image: '', youtubeId: 'xw8zzZpWauc' },
   { id: 5, title: 'MVV EP 1: ', category: 'BTS', image: '', youtubeId: 'MoOOP7j873g' },
 ];
 
-
+// Dynamically generate PHOTOS from the imported files
 export const PHOTOS: Project[] = Object.keys(globFiles).map((path, index) => {
   // Path example: "/public/images/Narrative/Dune Part Two.jpg"
   const parts = path.split('/');
@@ -85,43 +79,10 @@ export const PHOTOS: Project[] = Object.keys(globFiles).map((path, index) => {
 //     image: 'https://www.instagram.com/p/DTcEwSUCJYY/?igsh=OWcyN3g3azEzcTZ3', 
 //     externalLink: 'https://instagram.com' 
 //   },
-//   { 
-//     id: 2, 
-//     title: 'Landscape I', 
-//     category: 'Landscape', 
-//     image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop', 
-//     // externalLink: 'https://instagram.com' 
-//   },
-//   { 
-//     id: 3, 
-//     title: 'Backstage', 
-//     category: 'BTS', 
-//     image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop', 
-//     externalLink: 'https://instagram.com' 
-//   },
-//   { 
-//     id: 4, 
-//     title: 'Studio Light', 
-//     category: 'Studio', 
-//     image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop', 
-//     externalLink: 'https://instagram.com' 
-//   },
-//   { 
-//     id: 5, 
-//     title: 'Street Level', 
-//     category: 'Street', 
-//     image: 'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2070&auto=format&fit=crop', 
-//     externalLink: 'https://instagram.com' 
-//   },
-//   { 
-//     id: 6, 
-//     title: 'Film Set', 
-//     category: 'BTS', 
-//     image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?q=80&w=1974&auto=format&fit=crop', 
-//     externalLink: 'https://instagram.com' 
-//   },
 // ];
 
+
+// Testimonials
 export const TESTIMONIALS: Testimonial[] = [
   { quote: "Zibuyile has an incredible eye for lighting and composition. Every frame tells a story.", author: "Mnqondisi", role: "CEO OF MADSHO" },
   { quote: "Professional, creative, and efficient. A true master of the craft.", author: "Mocke Jansen van Vuren", role: "MA SUPERVISOR" },
@@ -129,8 +90,7 @@ export const TESTIMONIALS: Testimonial[] = [
   // { quote: "The best cinematographer we've had the pleasure of working with on our campaign.", author: "Lethabo Masisi", role: "DIRECTOR OF PHOTOGRAPHY" },
 ];
 
-// export const CLIENT_LIST_STR = "Adobe, Apple, Atelier Swarovski, Audible, Booking.Com, England Rugby, Gamble Aware, Many Pets, PepsiCo, Premier Jouet, Revolut, Sony Music, Vice";
-
+// Previous Clients
 export const CLIENT_LIST: Client[] = [
   { name: 'MADSHO', link: 'https://madsho.co.za/' },
   { name: 'SEAMLESS CUT', link: 'https://www.instagram.com/seamlesscut' },
@@ -142,10 +102,10 @@ export const CLIENT_LIST: Client[] = [
   { name: 'OUTRE STUDIO', link: 'https://www.instagram.com/outrestudios' },
   { name: 'LEWATLE MAGAZINE', link: 'https://www.instagram.com/lewatlemagazine' },
 ];
-
+// On-Set Images for Contact Page
 export const ON_SET_IMAGES = [
   'media/others/me_1.jpg',
   'media/others/me_2.jpg',
   'media/others/me_3.jpg',
-  'media/others/me_4.jpg'
+  'media/others/me_4.jpg',
 ];
