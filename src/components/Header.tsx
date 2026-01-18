@@ -1,142 +1,142 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';  // ← This line fixes the error
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { SOCIAL_LINKS } from '../constants';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Instagram, Linkedin, Mail, Film } from 'lucide-react';
+import { NAV_ITEMS, SOCIAL_LINKS } from '../constants';
 
 const Header: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const navigate = useNavigate();        // ← Hook to get the navigate function
-  const { pathname } = useLocation();    // ← Hook to get current pathname
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  const navClass = ({ isActive }: { isActive: boolean }) =>
-    `text-sm font-medium tracking-widest hover:text-gold transition-colors duration-300 pb-1 ${
-      isActive ? 'text-dark border-b-2 border-gold' : 'text-gray-600'
-    }`;
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (pathname === '/') {
-      window.location.reload(); // Full refresh when already on home
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       navigate('/');
     }
   };
 
-  // Mobile nav item class for consistency
-  const mobileNavClass = "text-3xl md:text-4xl font-serif text-dark hover:text-gold transition-colors";
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20 md:h-24">
-
-          {/* Branding / Logo */}
-          <a
-            href="/"
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-3' : 'bg-white py-4 md:py-6'
+      }`}
+    >
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8 lg:px-12 flex justify-between items-center h-12 md:h-auto">
+        
+        {/* Branding */}
+        <div className="flex flex-col z-50 shrink-0">
+          <a 
+            href="/" 
             onClick={handleLogoClick}
-            className="flex flex-col justify-center cursor-pointer"
+            className="font-serif text-lg sm:text-2xl md:text-3xl tracking-tight text-dark font-semibold cursor-pointer hover:text-gold-hover transition-colors whitespace-nowrap"
           >
-            <span className="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight text-dark font-semibold hover:text-gold transition-colors">
-              ZIBUYILE GUMEDE
-            </span>
-            <span className="font-sans text-[10px] sm:text-xs tracking-[0.2em] text-gray-500 uppercase mt-1">
-              Director of Photography
-            </span>
+            ZIBUYILE GUMEDE
           </a>
+          <span className="font-sans text-[9px] sm:text-[10px] md:text-xs tracking-[0.15em] md:tracking-[0.2em] text-gray-500 uppercase mt-0.5 md:mt-1">
+            Director of Photography
+          </span>
+        </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-10">
-            <NavLink to="/films" className={navClass}>FILMS</NavLink>
-            <NavLink to="/photography" className={navClass}>PHOTOGRAPHY</NavLink>
-            <NavLink to="/" className={navClass}>ABOUT</NavLink>
-            <NavLink to="/contact" className={navClass}>CONTACT</NavLink>
-          </nav>
-
-          {/* Desktop Right Side (Social + CV) */}
-          <div className="hidden md:flex items-center space-x-6">
-            <div className="flex space-x-4">
-              <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition"><i className="fab fa-instagram text-lg"></i></a>
-              <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition"><i className="fab fa-linkedin-in text-lg"></i></a>
-              <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition"><i className="fab fa-youtube text-lg"></i></a>
-              <a href={`mailto:${SOCIAL_LINKS.email}`} className="text-gray-400 hover:text-gold transition"><i className="fas fa-envelope text-lg"></i></a>
-              <a href={SOCIAL_LINKS.imdb} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition"><i className="fab fa-imdb text-lg"></i></a>
-            </div>
-            <a 
-              href="/resume.pdf" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-4 py-2 border border-gold text-gold text-xs font-bold tracking-widest hover:bg-gold hover:text-white transition duration-300 uppercase"
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex space-x-8 lg:space-x-10">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) => `font-sans text-xs lg:text-sm tracking-widest uppercase pb-1 border-b-2 transition-colors duration-300 ${
+                isActive ? 'border-gold text-black' : 'border-transparent text-gray-500 hover:text-black hover:border-gold'
+              }`}
             >
-              Download CV
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center space-x-6">
+          <div className="flex space-x-4 text-gray-400">
+            <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                <Instagram size={18} />
+            </a>
+            <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                <Linkedin size={18} />
+            </a>
+            <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                <Film size={18} />
+            </a>
+            <a href={`mailto:${SOCIAL_LINKS.email}`} className="hover:text-gold transition-colors">
+                <Mail size={18} />
             </a>
           </div>
-
-          {/* Mobile Hamburger Button */}
-          <button 
-            onClick={toggleMenu} 
-            className="md:hidden text-dark hover:text-gold focus:outline-none z-50"
-            aria-label="Toggle menu"
+          <a 
+            href="/cv.pdf" 
+            download
+            className="border border-gold text-gold font-sans text-[10px] lg:text-xs tracking-widest uppercase px-4 py-2 hover:bg-gold hover:text-white transition-all duration-300"
           >
-            {isOpen ? <XMarkIcon className="h-8 w-8" /> : <Bars3Icon className="h-8 w-8" />}
-          </button>
+            Download CV
+          </a>
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="md:hidden text-dark focus:outline-none z-50 p-2 -mr-2"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close Menu" : "Open Menu"}
+        >
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </div>
 
-      {/* Mobile Full-Screen Menu Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-white z-40 flex flex-col justify-center items-center space-y-10 px-8 md:hidden">
-          <nav className="flex flex-col items-center space-y-8">
-            <NavLink 
-              to="/films" 
-              onClick={toggleMenu} 
-              className={mobileNavClass}
+      {/* Mobile Menu Overlay */}
+      <div 
+        className={`fixed inset-0 bg-white z-40 flex flex-col pt-28 items-center transition-transform duration-300 ease-in-out md:hidden ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col items-center space-y-8 w-full px-8">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) => `font-serif text-2xl tracking-wide ${isActive ? 'text-gold' : 'text-dark'}`}
             >
-              FILMS
+              {item.label}
             </NavLink>
-            <NavLink 
-              to="/photography" 
-              onClick={toggleMenu} 
-              className={mobileNavClass}
-            >
-              PHOTOGRAPHY
-            </NavLink>
-            <NavLink 
-              to="/" 
-              onClick={toggleMenu} 
-              className={mobileNavClass}
-            >
-              ABOUT
-            </NavLink>
-            <NavLink 
-              to="/contact" 
-              onClick={toggleMenu} 
-              className={mobileNavClass}
-            >
-              CONTACT
-            </NavLink>
-          </nav>
+          ))}
+          
+          <div className="w-16 h-px bg-gray-200 my-6"></div>
 
-          <div className="flex flex-col items-center space-y-8 mt-8">
-            <div className="flex space-x-6">
-              <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition text-2xl"><i className="fab fa-instagram"></i></a>
-              <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition text-2xl"><i className="fab fa-linkedin-in"></i></a>
-              <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition text-2xl"><i className="fab fa-youtube"></i></a>
-              <a href={`mailto:${SOCIAL_LINKS.email}`} className="text-gray-400 hover:text-gold transition text-2xl"><i className="fas fa-envelope"></i></a>
-              <a href={SOCIAL_LINKS.imdb} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold transition text-2xl"><i className="fab fa-imdb"></i></a>
-            </div>
-            <a 
-              href="/resume.pdf" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-8 py-4 border-2 border-gold text-gold text-lg font-bold tracking-widest hover:bg-gold hover:text-white transition duration-300 uppercase"
-            >
-              Download CV
-            </a>
+          <div className="flex space-x-8">
+            <a href={SOCIAL_LINKS.instagram} className="text-gray-400 hover:text-gold"><Instagram size={24} /></a>
+            <a href={SOCIAL_LINKS.linkedin} className="text-gray-400 hover:text-gold"><Linkedin size={24} /></a>
+            <a href={`mailto:${SOCIAL_LINKS.email}`} className="text-gray-400 hover:text-gold"><Mail size={24} /></a>
           </div>
+          
+          <a 
+            href="/cv.pdf"
+            download
+            className="mt-6 border border-gold text-gold font-sans text-xs tracking-widest uppercase px-10 py-3 hover:bg-gold hover:text-white transition-colors"
+          >
+            Download CV
+          </a>
         </div>
-      )}
+      </div>
     </header>
   );
 };

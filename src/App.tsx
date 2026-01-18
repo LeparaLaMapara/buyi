@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -18,7 +18,7 @@ const LoadingFallback = () => (
 const App: React.FC = () => {
   return (
     <HashRouter>
-      <div className="flex flex-col min-h-screen bg-white text-dark selection:bg-gold selection:text-white">
+      <div className="flex flex-col min-h-screen font-sans bg-white text-dark selection:bg-gold selection:text-white">
         <Header />
         <main className="flex-grow">
           <Suspense fallback={<LoadingFallback />}>

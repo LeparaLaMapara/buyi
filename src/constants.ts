@@ -1,10 +1,18 @@
 import { NavItem, Project, Testimonial } from './types';
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: 'Films', path: '/' },
+  { label: 'Films', path: '/films' },
   { label: 'Photography', path: '/photography' },
+  // { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' },
 ];
+
+//  <nav className="hidden md:flex space-x-10">
+//       <NavLink to="/films" className={navClass}>FILMS</NavLink>
+//       <NavLink to="/photography" className={navClass}>PHOTOGRAPHY</NavLink>
+//       <NavLink to="/" className={navClass}>ABOUT</NavLink>
+//       <NavLink to="/contact" className={navClass}>CONTACT</NavLink>
+//     </nav>
 
 // Set to a YouTube video ID (e.g., 'Way9Dexny3w') to enable the showreel.
 // Leave empty ('') to display "COMING SOON".
@@ -118,7 +126,7 @@ export const TESTIMONIALS: Testimonial[] = [
   { quote: "Zibuyile has an incredible eye for lighting and composition. Every frame tells a story.", author: "Mnqondisi", role: "CEO OF MADSHO" },
   { quote: "Professional, creative, and efficient. A true master of the craft.", author: "Mocke Jansen van Vuren", role: "MA SUPERVISOR" },
   { quote: "Transforms ordinary locations into cinematic masterpieces.", author: "Vuyiswa Tshangela", role: "PRODUCTION MANAGER" },
-  { quote: "The best cinematographer we've had the pleasure of working with on our campaign.", author: "Lethabo Masisi", role: "DIRECTOR OF PHOTOGRAPHY" },
+  // { quote: "The best cinematographer we've had the pleasure of working with on our campaign.", author: "Lethabo Masisi", role: "DIRECTOR OF PHOTOGRAPHY" },
 ];
 
 // export const CLIENT_LIST_STR = "Adobe, Apple, Atelier Swarovski, Audible, Booking.Com, England Rugby, Gamble Aware, Many Pets, PepsiCo, Premier Jouet, Revolut, Sony Music, Vice";
